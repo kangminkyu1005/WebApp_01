@@ -307,9 +307,9 @@ export default function App() {
               <div className="absolute bottom-4 right-4 font-mono text-[10px] text-primary/40 z-10 uppercase">[ STATUS: ACTIVE ]</div>
               
               <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvEsaFqQNffKy6RvgHk2Xrev0gzFKbtv8SDUCWtkpU9Pj6CVAw0p0MnTjs_naFV4ulk5In8-3Nl1Da17-V0dqRM-wHl8ngUgsWLTv5b2l0yp7a1E8xMs1glCMl1cQ3kO1LtjpJcqZdzSuJ2NK-XbvQqTbPySpt_05kSgl7pYL-TFbeaJ4qsRxwtFq4yjMHJqV4ElKYAwEGGp7V-TDPkXSG5AR5hvoVKuxYah7vqsk0iVQKuyp317bf2kWUTNAn0LEFMbPwopBrD1Fg" 
-                alt="Cybernetic Robot"
-                className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-all duration-700 group-hover:scale-105"
+                src="/src/assets/images/SUMO_ver01.png" 
+                alt="LEGO Sumo Robot"
+                className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-40"></div>
             </motion.div>
