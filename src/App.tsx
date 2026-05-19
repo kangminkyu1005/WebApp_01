@@ -23,6 +23,7 @@ import {
   Monitor
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import sumoRobotImg from "./assets/images/SUMO_ver01.png";
 
 const NavItem = ({ href, children, active, onClick }: { href: string; children: React.ReactNode; active?: boolean; onClick?: () => void }) => (
   <a 
@@ -307,7 +308,7 @@ export default function App() {
               <div className="absolute bottom-4 right-4 font-mono text-[10px] text-primary/40 z-10 uppercase">[ STATUS: ACTIVE ]</div>
               
               <img 
-                src="/src/assets/images/SUMO_ver01.png" 
+                src={sumoRobotImg} 
                 alt="LEGO Sumo Robot"
                 className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
               />
