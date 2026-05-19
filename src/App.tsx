@@ -59,9 +59,43 @@ const SectionHeading = ({ number, title, subtitle }: { number: string; title: st
   </div>
 );
 
+const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean; onClose: () => void; title: string; children: React.ReactNode }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="absolute inset-0 bg-background/80 backdrop-blur-md"
+        />
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          className="relative w-full max-w-5xl max-h-[90vh] bg-surface/90 border border-primary/20 rounded-3xl shadow-heavy-glow overflow-hidden flex flex-col"
+        >
+          <div className="flex justify-between items-center px-8 py-6 border-b border-primary/10">
+            <h3 className="text-2xl font-display font-bold text-primary">{title}</h3>
+            <button onClick={onClose} className="p-2 hover:bg-primary/10 rounded-full transition-colors">
+              <X className="w-6 h-6 text-primary" />
+            </button>
+          </div>
+          <div className="flex-grow overflow-y-auto p-8 custom-scrollbar">
+            {children}
+          </div>
+        </motion.div>
+      </div>
+    )}
+  </AnimatePresence>
+);
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("about");
+  const [isExpModalOpen, setIsExpModalOpen] = useState(false);
+  const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -295,7 +329,7 @@ export default function App() {
             <div className="absolute left-[17px] md:left-1/2 top-0 bottom-0 w-[1px] bg-primary/20"></div>
 
             <div className="space-y-12">
-              {experiences.map((exp, index) => (
+              {experiences.slice(0, 3).map((exp, index) => (
                 <motion.div 
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -323,6 +357,18 @@ export default function App() {
                 </motion.div>
               ))}
             </div>
+
+            {experiences.length > 3 && (
+              <div className="flex justify-center mt-16">
+                <button 
+                  onClick={() => setIsExpModalOpen(true)}
+                  className="group flex items-center gap-2 px-8 py-3 bg-primary/10 border border-primary/20 rounded-full text-primary font-mono text-sm hover:shadow-glow transition-all"
+                >
+                  전체 경험 보기
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -403,7 +449,7 @@ export default function App() {
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+            {projects.slice(0, 3).map((project, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -449,6 +495,18 @@ export default function App() {
               </motion.div>
             ))}
           </div>
+
+          {projects.length > 3 && (
+            <div className="flex justify-center mt-16">
+              <button 
+                onClick={() => setIsPortfolioModalOpen(true)}
+                className="group flex items-center gap-2 px-8 py-3 bg-primary/10 border border-primary/20 rounded-full text-primary font-mono text-sm hover:shadow-glow transition-all"
+              >
+                전체 프로젝트 보기
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          )}
         </section>
       </main>
 
@@ -489,6 +547,77 @@ export default function App() {
       {/* Background Ambience */}
       <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
       <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-tertiary/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+
+      {/* Experience Modal */}
+      <Modal 
+        isOpen={isExpModalOpen} 
+        onClose={() => setIsExpModalOpen(false)} 
+        title="전체 경험 (Experience)"
+      >
+        <div className="relative max-w-4xl mx-auto py-8">
+          <div className="absolute left-[17px] top-0 bottom-0 w-[1px] bg-primary/20"></div>
+          <div className="space-y-12">
+            {experiences.map((exp, index) => (
+              <div key={index} className="relative pl-12 flex flex-col md:flex-row gap-8 items-start">
+                <div className="absolute left-4 -ml-[4.5px] w-[9px] h-[9px] rounded-full bg-background border-2 border-primary z-10 shadow-glow mt-2"></div>
+                <div className={`glass-panel p-6 rounded-2xl glow-hover w-full ${exp.active ? 'border-primary/40' : ''}`}>
+                  <span className="font-mono text-xs text-accent mb-2 block">{exp.year}</span>
+                  <h3 className="text-xl font-bold mb-2">{exp.title}</h3>
+                  <p className="text-secondary text-sm leading-relaxed">{exp.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Modal>
+
+      {/* Portfolio Modal */}
+      <Modal 
+        isOpen={isPortfolioModalOpen} 
+        onClose={() => setIsPortfolioModalOpen(false)} 
+        title="전체 프로젝트 (Portfolio)"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
+          {projects.map((project, index) => (
+            <div key={index} className="glass-panel rounded-2xl overflow-hidden flex flex-col group hover:-translate-y-1 transition-all duration-300">
+               <div className="h-48 relative overflow-hidden">
+                  <img 
+                    src={project.img} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent"></div>
+                  <div className="absolute top-4 left-4 font-mono text-[10px] bg-background/80 px-2 py-1 rounded backdrop-blur-sm border border-primary/20 text-accent">
+                    MODEL: {project.id}
+                  </div>
+                </div>
+
+                <div className="p-6 flex-grow flex flex-col">
+                  <h3 className="text-2xl font-display font-bold mb-3">{project.title}</h3>
+                  <p className="text-secondary text-sm mb-6 flex-grow leading-relaxed">
+                    {project.desc}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tags.map((tag, tIdx) => (
+                      <span key={tIdx} className="font-mono text-[10px] bg-primary/5 border border-primary/20 px-2 py-1 rounded text-primary/80">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <a 
+                    href="#" 
+                    className="inline-flex items-center gap-2 text-primary font-mono text-sm hover:underline underline-offset-8 transition-all group/link"
+                  >
+                    자세히 보기 
+                    <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+            </div>
+          ))}
+        </div>
+      </Modal>
     </div>
   );
 }
