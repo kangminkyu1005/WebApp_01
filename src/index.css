@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-background: #041329;
+  --color-surface: #0a192f;
+  --color-on-surface: #d6e3ff;
+  --color-on-surface-variant: #bac9cc;
+  --color-primary: #c3f5ff;
+  --color-on-primary: #00363d;
+  --color-secondary: #bfc8ce;
+  --color-tertiary: #7000ff;
+  --color-accent: #00e5ff;
+  --color-tertiary-dim: #d1bcff;
+  
+  --shadow-glow: 0 0 15px rgba(0, 229, 255, 0.5);
+  --shadow-heavy-glow: 0 0 25px rgba(0, 229, 255, 0.7);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-sans antialiased;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.05) 0%, transparent 50%),
+      linear-gradient(to right, rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+  }
+}
+
+.glass-panel {
+  @apply bg-surface/40 backdrop-blur-xl border border-primary/20;
+}
+
+.glow-hover {
+  @apply transition-all duration-300;
+}
+
+.glow-hover:hover {
+  @apply shadow-glow border-primary/50;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(195, 245, 255, 0.5);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/20 rounded-full hover:bg-primary/40 transition-colors;
+}

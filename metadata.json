@@ -1,0 +1,6 @@
+{
+  "name": "My Robot Portfolio",
+  "description": "A high-tech cybernetic portfolio showcasing robotics projects, engineering experience, and technical certifications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
